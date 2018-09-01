@@ -4,6 +4,9 @@
 # Path to your oh-my-zsh installation.
   export ZSH=/home/rkirby/.oh-my-zsh
 
+# Set BIN Path
+  export PATH=/home/rkirby/bin:$PATH
+
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
