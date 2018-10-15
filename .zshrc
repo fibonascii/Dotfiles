@@ -2,16 +2,12 @@
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-  export ZSH=/home/rkirby/.oh-my-zsh
-
-# Set BIN Path
-  export PATH=/home/rkirby/bin:$PATH
+export ZSH=/Users/rkirby/.oh-my-zsh
 
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-ZSH_THEME="bira"
-#default = "dracula"
+ZSH_THEME="refined"
 # Set list of themes to load
 # Setting this variable when ZSH_THEME=random
 # cause zsh load theme from this variable instead of
@@ -95,18 +91,19 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-BASE16_SHELL=$HOME/.config/base16-shell/
-[ -n "$PS1" ] && [ -s $BASE_16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"
-export EDITOR=/usr/bin/vim
-export VISUAL=/usr/bin/vim
 
-
-# Custom Aliases
-alias myscrot='scrot ~/Pictures/Screenshots/%b%d::%H%M%S.png'
-
-# Virtualenv Wrapper
+# Setup Virtualenv Wrapper
 export WORKON_HOME=$HOME/.virtualenvs
 export PROJECT_HOME=$HOME/Devel
-source /usr/bin/virtualenvwrapper.sh
+source /usr/local/bin/virtualenvwrapper.sh
+export PATH=$HOME/go/bin:$PATH
+export KUBECONFIG=$KUBECONFIG:~/.kube/config-LOD-REST-DEV-EKS-CLUSTER
 
-[[ -s "/home/rkirby/.gvm/scripts/gvm" ]] && source "/home/rkirby/.gvm/scripts/gvm"
+
+# Path settings
+export PATH=$PATH:$HOME/bin
+
+eval $(thefuck --alias)
+
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
