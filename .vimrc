@@ -1,82 +1,266 @@
-" Basic editor changes
-syntax on
-"Set line numbers
-set number
-"Vundle installation
-"Tabstop
-set tabstop=4
+" Vim-Plug Plugins
+call plug#begin('~/.vim/plugged')
+Plug 'itchyny/lightline.vim'
+Plug 'bling/vim-bufferline'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
+Plug 'edkolev/tmuxline.vim'
+Plug 'fatih/vim-go'
+let g:go_version_warning = 0
+Plug 'rust-lang/rust.vim'
+Plug 'scrooloose/nerdcommenter'
+Plug 'scrooloose/nerdtree'
+Plug 'tpope/vim-fugitive'
+Plug 'majutsushi/tagbar'
+Plug 'airblade/vim-gitgutter'
+Plug 'jtratner/vim-flavored-markdown'
+Plug 'w0rp/ale'
+Plug 'chriskempson/base16-vim'
+Plug 'tpope/vim-surround', {'autoload': {'filetypes': ['md', 'python', 'ruby', 'html', 'css']} }
+Plug 'tpope/vim-repeat', {'autoload': {'filetypes': ['md', 'python', 'ruby', 'html', 'css']} }
+" Themes
+Plug 'altercation/vim-colors-solarized'
+Plug 'nanotech/jellybeans.vim'
+call plug#end()
 
-set nocompatible              " be iMproved, required
-filetype off                  " required
+" Color scheme
+:syntax enable
+set background="dark"
 
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-" alternatively, pass a path where Vundle should install plugins
-"call vundle#begin('~/some/path/here')
-
-" let Vundle manage Vundle, required
-Plugin 'VundleVim/Vundle.vim'
-
-" The following are examples of different formats supported.
-" Keep Plugin commands between vundle#begin/end.
-" plugin on GitHub repo
-Plugin 'tpope/vim-fugitive'
-" plugin from http://vim-scripts.org/vim/scripts.html
-" Plugin 'L9'
-" Git plugin not hosted on GitHub
-Plugin 'git://git.wincent.com/command-t.git'
-" git repos on your local machine (i.e. when working on your own plugin)
-Plugin 'file:///home/gmarik/path/to/plugin'
-" The sparkup vim script is in a subdirectory of this repo called vim.
-" Pass the path to set the runtimepath properly.
-Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
-" Install L9 and avoid a Naming conflict if you've already installed a
-" different version somewhere else.
-" Plugin 'ascenator/L9', {'name': 'newL9'}
-
-" All of your Plugins must be added before the following line
-call vundle#end()            " required
-filetype plugin indent on    " required
-" To ignore plugin indent changes, instead use:
-"filetype plugin on
-"
-" Brief help
-" :PluginList       - lists configured plugins
-" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
-" :PluginSearch foo - searches for foo; append `!` to refresh local cache
-" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
-"
-" see :h vundle for more details or wiki for FAQ
-" Put your non-Plugin stuff after this line
-
-"NerdTREE
-Plugin 'scrooloose/nerdtree'
-
-"VIM Airline
-Plugin 'vim-airline/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
-
-"One Dark Theme Vim
-Plugin 'rakr/vim-one'
-
-"Credit joshdick
-"Use 24-bit (true-color) mode in Vim/Neovim when outside tmux.
-"If you're using tmux version 2.2 or later, you can remove the outermost $TMUX check and use tmux's 24-bit color support
-"(see < http://sunaku.github.io/tmux-24bit-color.html#usage > for more information.)
-if (empty($TMUX))
-  if (has("nvim"))
-  "For Neovim 0.1.3 and 0.1.4 < https://github.com/neovim/neovim/pull/2198 >
-  let $NVIM_TUI_ENABLE_TRUE_COLOR=1
-  endif
-  "For Neovim > 0.1.5 and Vim > patch 7.4.1799 < https://github.com/vim/vim/commit/61be73bb0f965a895bfb064ea3e55476ac175162 >
-  "Based on Vim patch 7.4.1770 (`guicolors` option) < https://github.com/vim/vim/commit/8a633e3427b47286869aa4b96f2bfc1fe65b25cd >
-  " < https://github.com/neovim/neovim/wiki/Following-HEAD#20160511 >
-  if (has("termguicolors"))
-    set termguicolors
+" Set background and font in gVim
+if has("gui_running")
+  set background=light
+  if has("gui_gtk2")
+    set guifont=Inconsolata\ 11
+  elseif has("gui_win32")
+    set guifont=Consolas:h10:cANSI
   endif
 endif
 
+" Use local config if it exists
+if filereadable($HOME . "/.vimrc.local")
+    source ~/.vimrc.local
+endif
 
-let g:airline_theme='one'
-set background=dark
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Match weird white space:
+"   Lines ending with spaces:   
+"   Lines with spaces AND tabs (in either order):
+    	"
+	    "
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Highlight trailing whitespace and spaces touching tabs
+:highlight TrailingWhitespace ctermbg=darkred guibg=darkred
+:let w:m2=matchadd('TrailingWhitespace', '\s\+$\| \+\ze\t\|\t\+\ze ')
+
+" Remap <leader>
+:let mapleader="\<Space>"
+
+" Allow filetype-specific plugins
+:filetype plugin on
+
+" Read configurations from files
+:set modeline
+:set modelines=5
+
+" Setup tags file
+:set tags=./tags,tags;
+
+" Set path to include the cwd and everything underneath
+:set path=**
+:set wildmenu
+
+" Show the normal mode command as I type it
+:set showcmd
+
+" NAVIGATION
+
+" Jump to last cursor position unless it's invalid or in an event handler
+autocmd BufReadPost *
+  \ if line("'\"") > 0 && line("'\"") <= line("$") |
+  \   exe "normal g`\"" |
+  \ endif
+
+" Disable arrow keys for navigation
+:nnoremap <up> <nop>
+:nnoremap <down> <nop>
+:nnoremap <left> <nop>
+:nnoremap <right> <nop>
+
+" Make j and k move up and down better for wrapped lines
+:noremap k gk
+:noremap j gj
+:noremap gk k
+:noremap gj j
+
+" Ctrl-<hjkl> to change splits
+:noremap <C-h> <C-w>h
+:noremap <C-j> <C-w>j
+:noremap <C-k> <C-w>k
+:noremap <C-l> <C-w>l
+
+" <Tab> to cycle through splits
+:noremap <Tab> <C-w>w
+
+" Close the current split
+:nmap <leader>x <C-w>c
+
+" Jumping between buffers
+:noremap <C-n> :bnext<CR>
+:noremap <C-p> :bprev<CR>
+:noremap <C-e> :b#<CR>
+
+" Let <C-n> and <C-p> also filter through command history
+:cnoremap <C-n> <Down>
+:cnoremap <C-p> <Up>
+
+" Start scrolling before my cursor reaches the bottom of the screen
+set scrolloff=4
+
+" Show relative line numbers with <leader>l
+:nmap <leader>l :set number! relativenumber!<CR>
+
+" Set relative Line Numbers by default
+set relativenumber
+
+" Improve search
+:set ignorecase
+:set smartcase
+:set infercase
+:set hlsearch
+:set noincsearch " Default on neovim, and I hate it
+
+" Toggle search highlighting
+:nmap <CR> :set hlsearch!<CR>
+
+" Lazily redraw: Make macros faster
+:set lazyredraw
+
+" Turn off swap files
+:set noswapfile
+:set nobackup
+:set nowritebackup
+
+" Open new split panes to right and bottom
+:set splitbelow
+:set splitright
+
+" allow hidden buffers
+:set hidden
+
+" always show the status bar
+:set laststatus=2
+
+" hide mode so it shows on the statusbar only
+:set noshowmode
+
+" short ttimeoutlen to lower latency to show current mode
+:set ttimeoutlen=50
+
+" Toggle cursor highlighting
+:nmap <leader>x :set cursorline! cursorcolumn!<CR>
+
+" Make cursor highlights more obvious
+:hi CursorLine   cterm=NONE ctermbg=darkgreen ctermfg=black guibg=darkred guifg=white
+:hi CursorColumn cterm=NONE ctermbg=darkgreen ctermfg=black guibg=darkred guifg=white
+
+" Consistent backspace on all systems
+:set backspace=2
+
+" Leave insert mode with hh
+:inoremap hh <ESC>
+
+" Clear trailing whitespace
+:nnoremap <leader>W :%s/\s\+$//<CR><C-o>
+
+" Convert tabs to spaces
+:nnoremap <leader>T :%s/\t/    /g<CR>
+
+" Toggle showing listchars
+:nnoremap <leader><TAB> :set list!<CR>
+if &encoding == "utf-8"
+  exe "set listchars=eol:\u00ac,nbsp:\u2423,conceal:\u22ef,tab:\u25b8\u2014,precedes:\u2026,extends:\u2026"
+else
+  set listchars=eol:$,tab:>-,extends:>,precedes:<,conceal:+
+endif
+
+" Enable indent folding, but have it disabled by default
+:set foldmethod=indent
+:set foldlevel=99
+
+" Select whole buffer
+nnoremap vaa ggvGg_
+
+" Uppercase typed word from insert mode
+inoremap <C-u> <esc>mzgUiw`za
+
+" Use braces to determine when to auto indent
+:set smartindent
+
+" Make Y act like D and C
+nnoremap Y y$
+
+" Unmap ex mode
+nnoremap Q <nop>
+
+" Special settings for some filetypes
+:au Filetype ruby setl expandtab smarttab tabstop=4 shiftwidth=4 softtabstop=4
+:au Filetype yaml setl expandtab smarttab tabstop=4 shiftwidth=4 softtabstop=4
+
+" Use github-flavored markdown
+:aug markdown
+    :au!
+    :au BufNewFile,BufRead *.md,*.markdown setlocal filetype=ghmarkdown
+:aug END
+
+" Open commonly edited files
+:nmap <leader>ev :edit $MYVIMRC<CR>
+:nmap <leader>et :edit $HOME/.tmux.conf<CR>
+:nmap <leader>eb :edit $HOME/.bash_aliases<CR>
+:nmap <leader>eg :edit $HOME/.gitaliases<CR>
+
+" Reload vimrc
+:nmap <leader>rv :source $MYVIMRC<CR>
+
+" Close the current buffer
+:nmap <leader>c :bp\|bd #<CR>
+
+" Save
+:nmap <leader>w :w<CR>
+
+" Mappings for vimdiff
+:nmap <leader>dg :diffget<CR>
+:nmap <leader>dp :diffput<CR>
+:nmap <leader>du :diffupdate<CR>
+
+" CONFIGURE PLUGINS
+" Use deoplete.
+let g:deoplete#enable_at_startup = 1
+
+" Tmuxline (Configures Tmux's statusbar)
+:let g:tmuxline_preset = 'powerline'
+:let g:tmuxline_theme = 'zenburn'
+
+" taglist.vim
+:nnoremap <leader>z :TagbarToggle<CR>
+
+" NERDTree
+:nnoremap <leader>n :NERDTreeToggle<CR>
+
+" Fugitive
+:nmap <leader>gb :Gblame<CR>
+:nmap <leader>gd :Gdiff<CR>
+:nmap <leader>gs :Gstatus<CR>
+
+" FZF.vim
+:nmap <leader>f :FZF<CR>
+:nmap <leader>b :Buffers<CR>
+:nmap <leader>t :Tags<CR>
+:nmap <leader>s :Lines<CR>
+
+" ale
+:let g:ale_lint_on_save = 1
+:let g:ale_lint_on_text_changed = 0
+:let g:ale_sign_column_always = 1
+
