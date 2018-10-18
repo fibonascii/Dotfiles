@@ -105,5 +105,6 @@ export PATH=$PATH:$HOME/bin
 
 #eval $(thefuck --alias)
 
+[[ $TMUX = "" ]] && export TERM="xterm-256color"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
