@@ -1,3 +1,5 @@
+let g:mapleader = "\<Space>"
+
 "Vim Plug Plugins
 """""""""""""""""""
 call plug#begin('~/.local/share/nvim/plugged')
@@ -12,7 +14,6 @@ Plug 'Shougo/denite.nvim'
 "A better molokai theme
 Plug 'joedicastro/vim-molokai256'
 
-"Fzf - fuzzy searching
 Plug '/usr/local/opt/fzf'
 Plug 'junegunn/fzf.vim'
 
@@ -80,15 +81,17 @@ call denite#custom#var('menu', 'menus', s:menus)
 "Fzf Settings
 """""""""""""""""""""""""""""""""
 
-nnoremap <Space>f :Files<CR>
-nnoremap <Space>h :History<CR>
+nnoremap <leader>f :Files<CR>
+nnoremap <leader>h :History<CR>
 "Search History
-nnoremap <Space><C-h> :History/<CR> 
+nnoremap <leader><C-h> :History/<CR> 
 "Search History
-nnoremap <Space><C-c> :History:<CR>
-nnoremap <Space>b :Buffers<CR>
-nnoremap <Space>c :Colors<CR>
-nnoremap <Space>m :Marks<CR>
-nnoremap <Space>w :Windows<CR>
-nnoremap <Space>s :Snippets<CR>
+nnoremap <leader><C-c> :History\:<CR>
+nnoremap <leader>b :Buffers<CR>
+nnoremap <leader>c :Colors<CR>
+nnoremap <leader>m :Marks<CR>
+nnoremap <leader>w :Windows<CR>
+nnoremap <leader>s :Snippets<CR>
 
+" Replace the default dictionary completion with fzf-based fuzzy completion
+inoremap <expr> <c-x><c-k> fzf#vim#complete('cat /usr/share/dict/words')
