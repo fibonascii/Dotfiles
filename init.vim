@@ -113,7 +113,6 @@ set background=dark
 colorscheme molokai256 
 let g:material_theme_style='dark'
 
-
 " Quick Commands
 """""""""""""""""""""""""""
 
@@ -121,7 +120,7 @@ let g:material_theme_style='dark'
 nnoremap <Leader>wq :wq!<CR>
 
 " Quick save but don't quit
-nnoremap <Leader>ww :w<CR>
+nnoremap <Leader>w :w<CR>
 
 " Quick quit without saving
 nnoremap <Leader>qa :qa!<CR>
@@ -191,7 +190,7 @@ nnoremap <leader>c :History:<CR>
 nnoremap <leader>b :Buffers<CR>
 nnoremap <leader>C :Colors<CR>
 nnoremap <leader>m :Marks<CR>
-nnoremap <leader>w :Windows<CR>
+nnoremap <leader>ww :Windows<CR>
 nnoremap <leader>s :Snippets<CR>
 nnoremap <leader>l :Locate<CR>
 nnoremap <leader>g :GFiles<CR>
