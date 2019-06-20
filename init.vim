@@ -14,6 +14,12 @@ Plug 'Shougo/denite.nvim'
 "A better molokai theme
 Plug 'joedicastro/vim-molokai256'
 
+" Material Theme for Vim
+Plug 'kaicataldo/material.vim'
+
+" Dracula Theme
+Plug 'dracula/vim', { 'as': 'dracula' }
+
 Plug '/usr/local/opt/fzf'
 Plug 'junegunn/fzf.vim'
 
@@ -22,12 +28,42 @@ Plug 'SirVer/ultisnips'
 " Snippets are separated from the engine. Add this if you want them:
 Plug 'honza/vim-snippets'
 
+"Indent Lines
+Plug 'Yggdroot/indentLine'
+
+"deoplete
+if has('nvim')
+  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+else
+  Plug 'Shougo/deoplete.nvim'
+  Plug 'roxma/nvim-yarp'
+  Plug 'roxma/vim-hug-neovim-rpc'
+endif
+let g:deoplete#enable_at_startup = 1
+
 call plug#end()
+
+"True Color Support
+if (has("nvim"))
+  "For Neovim 0.1.3 and 0.1.4 < https://github.com/neovim/neovim/pull/2198 >
+  let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+endif
+
+"For Neovim > 0.1.5 and Vim > patch 7.4.1799 < https://github.com/vim/vim/commit/61be73bb0f965a895bfb064ea3e55476ac175162 >
+"Based on Vim patch 7.4.1770 (`guicolors` option) < https://github.com/vim/vim/commit/8a633e3427b47286869aa4b96f2bfc1fe65b25cd >
+" < https://github.com/neovim/neovim/wiki/Following-HEAD#20160511 >
+if (has("termguicolors"))
+  set termguicolors
+endif
+
 
 "General Settings
 """"""""""""""""""""
-set visualbell "Use a visual bell instead of bleeping
-set autoindent
+set visualbell    "Use a visual bell instead of bleeping
+set tabstop=4 	  " A tab = 4 spaces
+set shiftwidth=4  " Number of spaces for autoindent 
+set softtabstop=4 " A soft tab of four spaces
+set autoindent	  " Set on the auto indent
 
 "Search Settings
 """"""""""""""""""""""
@@ -45,9 +81,15 @@ set relativenumber
 set cursorline
 
 "Highlight syntax
-syntax on
-""""""""""""""""""""""
+syntax enable
 
+" Autoload configuration when this file changes 
+autocmd! BufWritePost ~/.config/nvim/init.vim source %
+
+"Setup Indent Lines
+let g:indentLine_setColors = 0
+""""""""""""""""""""""
+"
 "Airline Settings
 "
 set noshowmode
@@ -59,39 +101,75 @@ let g:airline#extensions#whitespace#enabled=1
 let g:airline#extensions#hunks#non_zero_only=1
 
 "Theme
+"
+set background=dark
 colorscheme molokai256 
+let g:material_theme_style='dark'
 
+
+" Quick Commands
+"""""""""""""""""""""""""""
+
+" Quick save and quit
+nnoremap <Leader>wq :wq!<CR>
+
+" Quick save but don't quit
+nnoremap <Leader>ww :w<CR>
+
+" Quick quit without saving
+nnoremap <Leader>qa :qa!<CR>
+
+"Quit window
+nnoremap <Leader>q :q<CR>
+
+" New line and then go to insert mode
+nnoremap <Leader>nl $o<CR>
+
+"Netrw File Explorer vertical split
+nnoremap <leader>vx :Vexplore<CR>
+
+"Neocomplete Settings
+"""""""""""""""""""""
+
+" <TAB>: completion.
+inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 "Denite Settings
-"""""""""""""""""""""""""""""
-
-"Custom Menu
-let s:menus = {}
-
-let s:menus.zsh = {
-	\ 'description': 'Edit your zsh configuration'
-	\ }
-
-let s:menus.zsh.file_candidates = [
-	\ ['ZSH Configuration', '~/.zshrc'],
-	\ ]
-
-
-call denite#custom#var('menu', 'menus', s:menus)
+""""""""""""""""""""""""""""""
+"
+""Custom Menu
+"let s:menus = {}
+"
+"let s:menus.zsh = {
+"	\ 'description': 'Edit your zsh configuration'
+"	\ }
+"
+"let s:menus.zsh.file_candidates = [
+"	\ ['ZSH Configuration', '~/.zshrc'],
+"	\ ]
+"
+"
+"call denite#custom#var('menu', 'menus', s:menus)
 
 "Fzf Settings
 """""""""""""""""""""""""""""""""
 
-nnoremap <leader>f :Files<CR>
+nnoremap <leader>f :FZF --no-sort --reverse<CR>
+"Search for files in home directory. With tmux config have to hit ` twice as
+"it's the prefix key
+nnoremap <leader>f` :Files ~/<CR>
+"Search old files and open buffers
 nnoremap <leader>h :History<CR>
 "Search History
 nnoremap <leader><C-h> :History/<CR> 
-"Search History
-nnoremap <leader><C-c> :History\:<CR>
+"Command History
+nnoremap <leader>c :History:<CR>
 nnoremap <leader>b :Buffers<CR>
-nnoremap <leader>c :Colors<CR>
+nnoremap <leader>C :Colors<CR>
 nnoremap <leader>m :Marks<CR>
 nnoremap <leader>w :Windows<CR>
 nnoremap <leader>s :Snippets<CR>
+nnoremap <leader>l :Locate<CR>
 
 " Replace the default dictionary completion with fzf-based fuzzy completion
-inoremap <expr> <c-x><c-k> fzf#vim#complete('cat /usr/share/dict/words')
+inoremap <expr> <c-x><c-k> fzf#vim#complete#word({'left': '15%'})
+
