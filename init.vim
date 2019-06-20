@@ -20,6 +20,7 @@ Plug 'kaicataldo/material.vim'
 " Dracula Theme
 Plug 'dracula/vim', { 'as': 'dracula' }
 
+"Fuzzy searching
 Plug '/usr/local/opt/fzf'
 Plug 'junegunn/fzf.vim'
 
@@ -30,6 +31,12 @@ Plug 'honza/vim-snippets'
 
 "Indent Lines
 Plug 'Yggdroot/indentLine'
+
+"Extends register functionality
+Plug 'junegunn/vim-peekaboo'
+
+"Markdown Preview
+Plug 'junegunn/vim-xmark', { 'do': 'make' }
 
 "deoplete
 if has('nvim')
@@ -128,6 +135,24 @@ nnoremap <Leader>nl $o<CR>
 "Netrw File Explorer vertical split
 nnoremap <leader>vx :Vexplore<CR>
 
+"PlugInstall
+nnoremap <leader>vp :PlugInstall<CR>
+
+"PlugStatus
+nnoremap <leader>vs :PlugStatus<CR>
+
+"Netrw Settings
+"""""""""""""""""""""""""""""""""""
+
+"Remove Banner
+let g:netrw_banner = 0
+
+"Set List Style
+let g:netrw_liststyle = 1
+
+"Set window style
+let g:netrw_winsize = 35
+
 "Neocomplete Settings
 """""""""""""""""""""
 
@@ -169,7 +194,9 @@ nnoremap <leader>m :Marks<CR>
 nnoremap <leader>w :Windows<CR>
 nnoremap <leader>s :Snippets<CR>
 nnoremap <leader>l :Locate<CR>
+nnoremap <leader>g :GFiles<CR>
 
 " Replace the default dictionary completion with fzf-based fuzzy completion
 inoremap <expr> <c-x><c-k> fzf#vim#complete#word({'left': '15%'})
+
 
