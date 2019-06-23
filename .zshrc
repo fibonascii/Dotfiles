@@ -71,7 +71,7 @@ source $ZSH/oh-my-zsh.sh
 
 # export MANPATH="/usr/local/man:$MANPATH"
 
-export TERM=xterm-256color 
+export TERM=screen-256color 
 
 #Python stuff
 export PATH=/usr/local/opt/python/libexec/bin:$PATH
@@ -99,6 +99,7 @@ fh() {
       sed -E 's/ *[0-9]*\*? *//' | sed -E 's/\\/\\\\/g')
 }
 
+# fp - Preview files in current directory
 fp() {
 	fzf --preview="head -$LINES {}" 
 }

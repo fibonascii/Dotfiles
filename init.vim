@@ -29,9 +29,6 @@ Plug 'SirVer/ultisnips'
 " Snippets are separated from the engine. Add this if you want them:
 Plug 'honza/vim-snippets'
 
-"Indent Lines
-Plug 'Yggdroot/indentLine'
-
 "Extends register functionality
 Plug 'junegunn/vim-peekaboo'
 
@@ -62,7 +59,10 @@ endif
 if (has("termguicolors"))
   set termguicolors
 endif
-
+""""""""""""""""""""""""""""""""""""""""
+" Highlight trailing whitespace and spaces touching tabs
+:highlight TrailingWhitespace ctermbg=darkred guibg=darkred
+:let w:m2=matchadd('TrailingWhitespace', '\s\+$\| \+\ze\t\|\t\+\ze')
 
 "General Settings
 """"""""""""""""""""
@@ -71,6 +71,14 @@ set tabstop=4 	  " A tab = 4 spaces
 set shiftwidth=4  " Number of spaces for autoindent 
 set softtabstop=4 " A soft tab of four spaces
 set autoindent	  " Set on the auto indent
+
+:set splitright "Split new windows to the right
+
+" Make j and k move up and down better for wrapped lines
+:noremap k gk
+:noremap j gj
+:noremap gk k
+:noremap gj j
 
 "Search Settings
 """"""""""""""""""""""
@@ -140,6 +148,12 @@ nnoremap <leader>vp :PlugInstall<CR>
 "PlugStatus
 nnoremap <leader>vs :PlugStatus<CR>
 
+"Single Quote Word
+nnoremap rq ciw''<Esc>P<CR>
+
+"Double Quote Word
+nnoremap rdq ciw""<Esc>P<CR>
+
 "Netrw Settings
 """""""""""""""""""""""""""""""""""
 
@@ -176,11 +190,12 @@ inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 
 "Fzf Settings
 """""""""""""""""""""""""""""""""
+" If installed using Homebrew
+set rtp+=/usr/local/opt/fzf
 
-nnoremap <leader>f :FZF --no-sort --reverse<CR>
-"Search for files in home directory. With tmux config have to hit ` twice as
-"it's the prefix key
-nnoremap <leader>f` :Files ~/<CR>
+"call fzf#run({'source': 'find ~/ -path Library -prune -o 2> /dev/null', 'sink': 'e'})
+
+nnoremap <leader>f :FZF<CR>
 "Search old files and open buffers
 nnoremap <leader>h :History<CR>
 "Search History
@@ -192,8 +207,8 @@ nnoremap <leader>C :Colors<CR>
 nnoremap <leader>m :Marks<CR>
 nnoremap <leader>ww :Windows<CR>
 nnoremap <leader>s :Snippets<CR>
-nnoremap <leader>l :Locate<CR>
 nnoremap <leader>g :GFiles<CR>
+nnoremap <leader>l :Lines<CR>
 
 " Replace the default dictionary completion with fzf-based fuzzy completion
 inoremap <expr> <c-x><c-k> fzf#vim#complete#word({'left': '15%'})
