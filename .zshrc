@@ -44,11 +44,11 @@ if [ "$(uname 2> /dev/null)" != "Linux" ]; then
 
 	export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python
     source /usr/local/bin/virtualenvwrapper.sh
+else
+	# Manjaro Paths to Virtualenv Wrapper
+	export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python
+	source /usr/bin/virtualenvwrapper.sh
 fi
-
-# Manjaro Paths to Virtualenv Wrapper
-export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python
-source /usr/bin/virtualenvwrapper.sh
 
 #########################################
 #FZF Configuration
