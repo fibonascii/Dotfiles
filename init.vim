@@ -35,6 +35,9 @@ Plug 'junegunn/vim-peekaboo'
 "Markdown Preview
 Plug 'junegunn/vim-xmark', { 'do': 'make' }
 
+"NerdTree
+Plug 'scrooloose/nerdtree'
+
 call plug#end()
 
 "True Color Support
@@ -143,6 +146,12 @@ nnoremap rq ciw''<Esc>P<CR>
 
 "Double Quote Word
 nnoremap rdq ciw""<Esc>P<CR>
+
+
+"NERDTree Settings
+"""""""""""""""""
+
+nnoremap <leader>n :NERDTreeToggle<CR>
 
 "Netrw Settings
 """""""""""""""""""""""""""""""""""
