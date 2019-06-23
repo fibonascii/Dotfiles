@@ -56,9 +56,12 @@ fi
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-source /usr/share/fzf/key-bindings.zsh
-source /usr/share/fzf/completion.zsh
-
+# Homebrew installs support for fzf completion by default
+# This has to be sourced manually on linux
+if [[ "$(uname 2> /dev/null)" == "Linux" ]]; then
+	source /usr/share/fzf/key-bindings.zsh
+	source /usr/share/fzf/completion.zsh
+fi
 
 # fh - repeat history
 fh() {
