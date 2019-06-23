@@ -1,7 +1,3 @@
-# If you come from bash you might have to change your $PATH.  # export PATH=$HOME/bin:/usr/local/bin:$PATH
-
-
-
 # Path to your oh-my-zsh installation.
 
 if [ "$(uname 2> /dev/null)" != "Linux" ]; then
@@ -19,11 +15,19 @@ plugins=(git)
 
 source $ZSH/oh-my-zsh.sh
 
-# User configuration
-
-# export MANPATH="/usr/local/man:$MANPATH"
+# General Settings
+##################################################
 
 export TERM=screen-256color 
+
+# What does this do again?
+autoload -U +X bashcompinit && bashcompinit
+complete -o nospace -C /usr/local/bin/vault vault
+
+
+export EDITOR="vim"
+alias vim="nvim"
+
 
 # Python Configuration
 ################################
@@ -46,12 +50,13 @@ export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python
 source /usr/bin/virtualenvwrapper.sh
 
 #########################################
-autoload -U +X bashcompinit && bashcompinit
-complete -o nospace -C /usr/local/bin/vault vault
+#FZF Configuration
 
-export EDITOR="vim"
 
-alias vim="nvim"
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+source /usr/share/fzf/key-bindings.zsh
+source /usr/share/fzf/completion.zsh
 
 
 # fh - repeat history
@@ -64,10 +69,4 @@ fh() {
 fp() {
 	fzf --preview="head -$LINES {}" 
 }
-
-
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
-source /usr/share/fzf/key-bindings.zsh
-source /usr/share/fzf/completion.zsh
 
