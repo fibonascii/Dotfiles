@@ -2,9 +2,10 @@
 
 if [ "$(uname 2> /dev/null)" != "Linux" ]; then
 	export ZSH="/Users/rkirby/.oh-my-zsh"
+else
+	export ZSH="/home/rkirby/.oh-my-zsh"
 fi
 
-export ZSH="/home/rkirby/.oh-my-zsh"
 
 ZSH_THEME="refined"
 
