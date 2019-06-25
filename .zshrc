@@ -1,6 +1,8 @@
+#DISABLE_AUTO_TITLE="true"
+
 # Path to your oh-my-zsh installation.
 
-if [ "$(uname 2> /dev/null)" != "Linux" ]; then
+if [[ "$(uname 2> /dev/null)" != "Linux" ]]; then
 	export ZSH="/Users/rkirby/.oh-my-zsh"
 else
 	export ZSH="/home/rkirby/.oh-my-zsh"
@@ -19,7 +21,7 @@ source $ZSH/oh-my-zsh.sh
 # General Settings
 ##################################################
 
-export TERM=screen-256color 
+export TERM=xterm-256color 
 
 # What does this do again?
 autoload -U +X bashcompinit && bashcompinit
@@ -40,7 +42,7 @@ export WORKON_HOME=$HOME/.virtualenvs
 export PROJECT_HOME=$HOME/Devel
 
 # MacOs Paths to Virtualenv Wrapper
-if [ "$(uname 2> /dev/null)" != "Linux" ]; then
+if [[ "$(uname 2> /dev/null)" != "Linux" ]]; then
 
 	export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python
     source /usr/local/bin/virtualenvwrapper.sh

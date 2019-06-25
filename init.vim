@@ -20,6 +20,9 @@ Plug 'kaicataldo/material.vim'
 " Dracula Theme
 Plug 'dracula/vim', { 'as': 'dracula' }
 
+"Base 16 Themes
+Plug 'chriskempson/base16-vim'
+
 "Fuzzy searching
 Plug '/usr/local/opt/fzf'
 Plug 'junegunn/fzf.vim'
@@ -39,6 +42,9 @@ Plug 'junegunn/vim-xmark', { 'do': 'make' }
 Plug 'scrooloose/nerdtree'
 
 call plug#end()
+
+"Disable Tmux Status Line In Vim
+autocmd VimEnter,VimLeave * silent !tmux set status off
 
 "True Color Support
 if (has("nvim"))
@@ -102,7 +108,7 @@ let g:indentLine_setColors = 0
 "
 set noshowmode
 
-let g:airline_theme='powerlineish'
+let g:airline_theme='base16_google'
 let g:airline_powerline_fonts=1
 let g:airline#extensions#branches#enabled=1
 let g:airline#extensions#whitespace#enabled=1
@@ -111,7 +117,7 @@ let g:airline#extensions#hunks#non_zero_only=1
 "Theme
 "
 set background=dark
-colorscheme molokai256 
+colorscheme base16-material-darker
 let g:material_theme_style='dark'
 
 " Quick Commands
