@@ -11,6 +11,24 @@ Plug 'vim-airline/vim-airline-themes'
 "A pretty magical thing
 Plug 'Shougo/denite.nvim'
 
+if has('nvim')
+	  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+else
+      Plug 'Shougo/deoplete.nvim'
+	  Plug 'roxma/nvim-yarp'
+      Plug 'roxma/vim-hug-neovim-rpc'
+endif
+let g:deoplete#enable_at_startup = 1
+if !exists('g:deoplete#omni#input_patterns')
+	let g:deoplete#omni#input_patterns = {}
+endif
+
+"Pair quotes
+Plug 'jiangmiao/auto-pairs'
+
+"Python Auto Completion
+Plug 'zchee/deoplete-jedi'
+
 "A better molokai theme
 Plug 'joedicastro/vim-molokai256'
 
@@ -40,6 +58,18 @@ Plug 'junegunn/vim-xmark', { 'do': 'make' }
 
 "NerdTree
 Plug 'scrooloose/nerdtree'
+
+"Auto comment
+Plug 'scrooloose/nerdcommenter'
+
+"Auto Code Format
+Plug 'sbdchd/neoformat'
+
+"Code Jump
+Plug 'davidhalter/jedi-vim'
+
+"Neo make
+Plug 'neomake/neomake'
 
 call plug#end()
 
@@ -153,7 +183,6 @@ nnoremap rq ciw''<Esc>P<CR>
 "Double Quote Word
 nnoremap rdq ciw""<Esc>P<CR>
 
-
 "NERDTree Settings
 """""""""""""""""
 
@@ -214,8 +243,28 @@ nnoremap <leader>ww :Windows<CR>
 nnoremap <leader>s :Snippets<CR>
 nnoremap <leader>g :GFiles<CR>
 nnoremap <leader>l :Lines<CR>
+nnoremap <leader>t :Filetypes<CR>
 
 " Replace the default dictionary completion with fzf-based fuzzy completion
 inoremap <expr> <c-x><c-k> fzf#vim#complete#word({'left': '15%'})
 
+"Deoplete Settings
+""""""""""""""""""""""""""""""""""""""""""
+augroup omnifuncs
+	autocmd!
+	autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+augroup end
 
+"Code Jump Settings
+"""""""""""""""""""""""""""
+" disable autocompletion, cause we use deoplete for completion
+let g:jedi#completions_enabled = 0
+"
+" " open the go-to function in split, not another buffer
+let g:jedi#use_splits_not_buffers = "right"
+
+"Linting Settings
+let g:neomake_python_enabled_makers = ['pylint']
+let g:neomake_python_python_exe = 'python3'
+" When writing a buffer (no delay).
+call neomake#configure#automake('w')
