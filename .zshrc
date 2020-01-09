@@ -1,11 +1,13 @@
+if [ "$TMUX" = ""  ]; then tmux; fi
+
 #DISABLE_AUTO_TITLE="true"
 
 # Path to your oh-my-zsh installation.
 
 if [[ "$(uname 2> /dev/null)" != "Linux" ]]; then
-	export ZSH="/Users/rkirby/.oh-my-zsh"
+	export ZSH="/Users/fibonascii/.oh-my-zsh"
 else
-	export ZSH="/home/rkirby/.oh-my-zsh"
+	export ZSH="$HOME/.oh-my-zsh"
 fi
 
 
@@ -27,10 +29,10 @@ export TERM=xterm-256color
 autoload -U +X bashcompinit && bashcompinit
 complete -o nospace -C /usr/local/bin/vault vault
 
-
-export EDITOR="nvim"
-alias vim="nvim"
-
+if [[ $(which nvim) -eq 0 ]] then;
+	export EDITOR="nvim"
+	alias vim="nvim"
+fi
 
 # Python Configuration
 ################################
@@ -49,7 +51,7 @@ if [[ "$(uname 2> /dev/null)" != "Linux" ]]; then
 else
 	# Manjaro Paths to Virtualenv Wrapper
 	export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python
-	source /usr/bin/virtualenvwrapper.sh
+	source /usr/local/bin/virtualenvwrapper.sh
 fi
 
 #########################################
@@ -61,8 +63,10 @@ fi
 # Homebrew installs support for fzf completion by default
 # This has to be sourced manually on linux
 if [[ "$(uname 2> /dev/null)" == "Linux" ]]; then
-	source /usr/share/fzf/key-bindings.zsh
-	source /usr/share/fzf/completion.zsh
+#	source /usr/share/fzf/key-bindings.zsh
+	source 	$HOME/.fzf/shell/key-bindings.zsh
+#	source /usr/share/fzf/completion.zsh
+    source 	$HOME/.fzf/shell/completion.zsh
 fi
 
 # fh - repeat history
@@ -76,3 +80,9 @@ fp() {
 	fzf --preview="head -$LINES {}" 
 }
 
+export DOCKER_HOST=tcp://localhost:2375
+
+
+
+#Keychain Manager - apt install keychain
+eval $(keychain --eval id_rsa)
